@@ -1,0 +1,36 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  citeltestpraticowebapi:
+    image: citeltestpraticowebapi
+    build:
+      context: .
+      dockerfile: src/CitelTestPratico.WebAPI/Dockerfile
+    depends_on: 
+      - database
+    ports:
+      - 8081:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
+
+  database:
+    image: mysql:8.0.30
+    container_name: mysqldb
+    ports:
+        - "8885:3306"
+    expose: 
+        - 3306
+    volumes:
+        - db-volume:/var/lib/mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: 123123
+      MYSQL_USER: citel
+      MYSQL_PASSWORD: 123123
+      MYSQL_DATABASE: CitelTestPartico
+volumes:
+  db-volume:

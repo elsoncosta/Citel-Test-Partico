@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CitelTestPartico.Infra.Data\CitelTestPartico.Infra.Data.csproj" />
+    <ProjectReference Include="..\CitelTestPratico.Aplicacao\CitelTestPratico.Aplicacao.csproj" />
+    <ProjectReference Include="..\CitelTestPratico.Infra.CrossCutting.Identity\CitelTestPratico.Infra.CrossCutting.Identity.csproj" />
+  </ItemGroup>
+
+</Project>
