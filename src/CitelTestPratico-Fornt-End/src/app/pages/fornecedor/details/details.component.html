@@ -1,0 +1,70 @@
+<!-- Header -->
+<!-- Header -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+        <div class="row align-items-center py-0">
+            <div class="col-lg-6 col-7">
+                <!-- <h6 class="h2 text-white d-inline-block mb-0">Fornecedores</h6> -->
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <!-- <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li> -->
+                    <li class="breadcrumb-item"><a [routerLink]="['/fornecedores/index']">Fornecedores</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Fornecedores</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+            <a [routerLink]="['/fornecedores/create']" class="btn btn-sm btn-neutral">Novo</a>
+            <!-- <a [routerLink]="['/fornecedores/create']" class="btn btn-sm btn-neutral">Novo</a> -->
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+<!-- Table -->
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <!-- general form elements -->
+                <div class="card-header">
+                    <h3 class="card-title">Fornecedor</h3>
+                </div>
+                <div class="card-body">
+                    <h1>Detalhes do {{ fornecedor.nome }}</h1>                
+                    <div>
+                        <h4>Informação somente leitura</h4>
+                        <hr />
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                            <label class="control-label">Nome</label>
+                        </dt>
+                            <dd class="col-sm-10">
+                                {{ fornecedor.nome }}
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label class="control-label">Documento</label>
+                        </dt>
+                            <dd class="col-sm-10">
+                                <!-- {{ fornecedor.documento }} -->
+                            </dd>
+                            <dt class="col-sm-2">
+                                <label class="control-label">Ativo</label>
+                        </dt>
+                            <dd class="col-sm-10">
+                                <input [checked]="fornecedor.ativo" class="check-box" disabled="disabled" type="checkbox">
+                            </dd>
+                        </dl>
+                    </div>
+                
+                    <div>
+                        <a class="btn btn-dark" [routerLink]="['/fornecedores/editar',fornecedor.id]">Editar</a>&nbsp;
+                        <a class="btn btn-info" [routerLink]="['/fornecedores/listar-todos']">Voltar</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
