@@ -5,8 +5,8 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     {
-        path: 'fornecedores',
-        loadChildren: () => import('../../pages/fornecedor/fornecedor.module')
+        path: 'produtos',
+        loadChildren: () => import('../../pages/produto/produto.module')
         .then(m => m.FornecedorModule)
     }
 ];

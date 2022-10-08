@@ -5,6 +5,10 @@ namespace CitelTestPratico.Dominio.ProdutoRoot
 {
     public class Produto : Entity
     {
+        public Produto()
+        {
+            Ativo = true;
+        }
         public string Nome { get; set; }
         public string CodigoBarra { get; set; }
         public string Descricao { get; set; }

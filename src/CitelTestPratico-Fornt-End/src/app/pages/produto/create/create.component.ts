@@ -1,17 +1,15 @@
-import { StringUtils } from './../../../utils/string-utils';
 import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControlName, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';               
+import { Router } from '@angular/router';
 
 import { Observable, fromEvent, merge } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
-import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
 
 import { ValidationMessages, GenericValidator, DisplayMessage } from 'src/app/utils/generic-form-validation';
-import { Fornecedor } from '../models/fornecedor';
-import { FornecedorService } from '../services/fornecedor.service';
+import { Produto } from '../models/produto';
+import { ProdutoService } from '../services/produto.service';
 import { Categoria } from '../models/categoria';
 
 
@@ -25,13 +23,14 @@ export class CreateComponent implements OnInit {
 
   errors: any[] = [];
   form!: FormGroup;
-  fornecedor: Fornecedor = new Fornecedor();
+  produto: Produto = new Produto();
 
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;
   displayMessage: DisplayMessage = {};
   pesquisaCep: boolean = false;
   categorias!: Categoria[];
+  categoriaSelecionada!: number;
 
   MASKS = utilsBr.MASKS;
   formResult: string = '';
@@ -39,7 +38,7 @@ export class CreateComponent implements OnInit {
   mudancasNaoSalvas!: boolean;
 
   constructor(private fb: FormBuilder,
-    private fornecedorService: FornecedorService,
+    private fornecedorService: ProdutoService,
     private router: Router,
     private toastr: ToastrService) {
 
@@ -60,30 +59,26 @@ export class CreateComponent implements OnInit {
 
     this.genericValidator = new GenericValidator(this.validationMessages);
   }
-  
+
   ngOnInit() {
-    
-    this.form = this.fb.group({
-      nome: ['', [Validators.required]],
-      descricao: ['', [Validators.required]],
-      codigoBarra: ['', [Validators.required]],
-      ativo: ['', [Validators.required]],
-      categoriasIds: ['', [Validators.required]]
-    });
 
-    this.form.patchValue({tipoFornecedor: '1', ativo: true});
+    this.form = this.fb.group(
+      {
+        nome: ['', [Validators.required]],
+        descricao: ['', [Validators.required]],
+        codigoBarra: ['', [Validators.required]],
+        ativo: ['', [Validators.required]],
+        categoriasIds: [null, [Validators.required]]
+      });
 
-    this.GetCategorias();
+    this.form.patchValue({ativo: true});
   }
 
   ngAfterViewInit(): void {
-    this.tipoform().valueChanges
-        .subscribe(() => {
-          this.configurarElementosValidacao();
-          this.validarFormulario();
-        });
-    this.configurarElementosValidacao();
-    this.fornecedorService.obterTodos()
+    // this.configurarElementosValidacao();
+    // this.validarFormulario();
+    // this.configurarElementosValidacao();
+    this.GetCategorias();
   }
 
   configurarElementosValidacao() {
@@ -100,36 +95,26 @@ export class CreateComponent implements OnInit {
     this.mudancasNaoSalvas = true;
   }
 
-  tipoform(): AbstractControl {
-    return this.form.get('tipoFornecedor')!;
-  }
-
-  documento(): AbstractControl {
-    return this.form.get('documento')!;
-  }
-
   GetCategorias() {
     this.fornecedorService.GetListCategoria()
-      .subscribe({
-        next: (result) => {
-          console.log(result);
-          this.categorias = result.data;
-        },
-        error: (result) => {
-          this.errors.push(result);
-          this.toastr.error('Ocorreu um erro!', "Categorias não localizadas.");
-        }
-        });
-  }  
+      .subscribe(
+        result => this.categorias = result.data,
+        error => {
+                  this.errors.push(error);
+                  this.toastr.error('Ocorreu um erro!', "Categorias não localizadas.");
+                }
+      );
+  }
 
-   adicionarFornecedor() {
+   adicionar() {
     if (this.form.dirty && this.form.valid) {
-      this.fornecedor = Object.assign({}, this.fornecedor, this.form.value);
-      this.formResult = JSON.stringify(this.fornecedor);
-
-      console.log(this.fornecedor);
-
-      this.fornecedorService.novoFornecedor(this.fornecedor)
+      this.produto = Object.assign({}, this.produto, this.form.value);
+      let ids: number[] = [Number(this.categoriaSelecionada)];
+      this.produto.categoriasIds = ids;
+      this.produto.uriImageDefault = 'https://cdn2.iconfinder.com/data/icons/facebook-ui-colored/48/JD-24-512.png'
+      this.formResult = JSON.stringify(this.produto);
+      console.log(this.produto);
+      this.fornecedorService.AddCliente(this.produto)
         .subscribe({
           next: (sucesso) => { this.processarSucesso(sucesso) },
           error: (error) => { this.processarFalha(error) }
@@ -139,14 +124,19 @@ export class CreateComponent implements OnInit {
     }
   }
 
+  onSelectCategoria(e: any)
+  {
+    this.categoriaSelecionada = e.target.value;
+  }
+
   processarSucesso(response: any) {
     this.form.reset();
     this.errors = [];
 
-    let toast = this.toastr.success('Fornecedor cadastrado com sucesso!', 'Sucesso!');
+    let toast = this.toastr.success('Produto cadastrado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/fornecedores/index']);
+        this.router.navigate(['/produtos/index']);
       });
     }
   }

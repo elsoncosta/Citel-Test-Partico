@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FornecedorService } from '../services/fornecedor.service';
-import { Fornecedor } from '../models/fornecedor';
+import { ProdutoService } from '../services/produto.service';
+import { Produto } from '../models/produto';
 
 @Component({
   selector: 'app-index',
@@ -8,15 +8,15 @@ import { Fornecedor } from '../models/fornecedor';
 })
 export class IndexComponent implements OnInit {
 
-  public fornecedores!: Fornecedor[];
+  public produtos!: Produto[];
   errorMessage!: string;
 
-  constructor(private fornecedorService: FornecedorService) { }
+  constructor(private fornecedorService: ProdutoService) { }
 
   ngOnInit(): void {
     this.fornecedorService.obterTodos()
       .subscribe(
-        fornecedores => this.fornecedores = fornecedores,
+        result => this.produtos = result.data,
         error => this.errorMessage);
   }
 }

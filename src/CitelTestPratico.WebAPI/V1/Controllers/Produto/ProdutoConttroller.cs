@@ -76,6 +76,30 @@ namespace CitelTestPratico.WebAPI.V1.Controllers.Produto
             return CustomResponse();
         }
 
+        [HttpPut]
+        [ProducesResponseType(typeof(ProdutoAdicionarViewModel), 201)]
+        [ProducesResponseType(typeof(BadRequestRetorno), 404)]
+        public async Task<IActionResult> PutAsync([FromBody] ProdutoAtualizarViewModel viewmodel)
+        {
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            int Id = await _service.Atualizar(viewmodel);
+
+            if (!_notificador.TemNotificacao())
+            {
+                var modelsretorno = await _repository.ObterPorId(Id);
+                var viewModelsRetorno = _mapper.Map<ProdutoExibirViewModel>(modelsretorno);
+                foreach (var item in modelsretorno.Categorias)
+                {
+                    viewModelsRetorno.Categorias.Add(new Aplicacao.ViewModels.Categorias.CategoriaExibirViewModel() { Descricao = item.Categoria.Descricao, Id = item.Categoria.Id });
+                }
+                return CustomResponse(viewModelsRetorno);
+            }
+
+            return CustomResponse();
+        }
+
         [HttpGet("{Id:int}")]
         [ProducesResponseType(typeof(ProdutoExibirViewModel), 201)]
         [ProducesResponseType(typeof(BadRequestRetorno), 404)]

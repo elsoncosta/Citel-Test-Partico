@@ -4,23 +4,29 @@ namespace CitelTestPratico.WebAPI.Configuration
 {
     public static class AppCorsConfig
     {
-        public static void AddDatabaseSetup(this WebApplicationBuilder builder, WebApplication app)
+        public static void AddCors(this WebApplicationBuilder builder, WebApplication app)
         {
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            // builder.Services.AddCors(options =>
+            // {
+            //     options.AddDefaultPolicy(policy =>
+            //                           {
+            //                               policy.WithOrigins("http://127.0.0.1:4200","http://localhost:4200",
+            //                                                  "http://127.0.0.1:8081","http://localhost:8081")
+            //                                                  .AllowAnyHeader()
+            //                                                  .AllowAnyMethod();                                                          ;
+            //                           });
+            // });
 
-            builder.Services.AddCors(options =>
+            // global cors policy
+            if (app.Environment.IsDevelopment())
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                                      policy =>
-                                      {
-                                          policy.WithOrigins("http://127.0.0.1.com",
-                                                              "http://localhost:4200")
-                                                              .AllowAnyHeader()
-                                                              .AllowAnyMethod();
-                                      });
-            });
-
-            app.UseCors(MyAllowSpecificOrigins);
+                app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithMethods()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+            }            
         }
     }
 }

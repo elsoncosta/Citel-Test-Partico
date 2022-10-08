@@ -9,10 +9,10 @@ import { NgBrazil } from 'ng-brazil';
 
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
 
-import { FornecedorAppComponent } from './fornecedor.app.component';
-import { FornecedorRoutingModule } from './fornecedor.route';
+import { FornecedorAppComponent } from './produto.app.component';
+import { FornecedorRoutingModule } from './produto.route';
 
-import { FornecedorService } from './services/fornecedor.service';
+import { ProdutoService } from './services/produto.service';
 
 import { IndexComponent } from './index/index.component';
 import { CreateComponent } from './create/create.component';
@@ -42,7 +42,7 @@ import { DetailsComponent } from './details/details.component';
     NgbModule
   ],
   providers: [
-    FornecedorService
+    ProdutoService
   ]
 })
 export class FornecedorModule { }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FornecedorAppComponent } from './fornecedor.app.component';
+import { FornecedorAppComponent } from './produto.app.component';
 
 import { CreateComponent } from './create/create.component';
 import { IndexComponent } from './index/index.component';

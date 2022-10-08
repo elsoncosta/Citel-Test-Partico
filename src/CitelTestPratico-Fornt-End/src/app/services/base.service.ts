@@ -11,10 +11,7 @@ export abstract class BaseService {
     protected ObterHeaderJson() {
         return {
             headers: new HttpHeaders({
-                'Content-Type': 'text/plain; charset=UTF-8',
-                'access-control-allow-origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                'Access-Control-Allow-Methods': '*',
+                'Content-Type': 'application/json'
             })
         };
     }
@@ -23,7 +20,7 @@ export abstract class BaseService {
         return {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.LocalStorage.obterTokenUsuario()}`,
+                // 'Authorization': `Bearer ${this.LocalStorage.obterTokenUsuario()}`,
             })
         };
     }

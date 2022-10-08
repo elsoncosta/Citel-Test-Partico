@@ -10,6 +10,6 @@ namespace CitelTestPratico.Aplicacao.ViewModels.Produtos
         public string Descricao { get; set; }
         public bool Ativo { get; set; }
         public string UriImageDefault { get; set; }
-        public List<CategoriaAtualizarViewModel> Categorias { get; set; }
+        public List<int> CategoriasIds { get; set; }
     }
 }

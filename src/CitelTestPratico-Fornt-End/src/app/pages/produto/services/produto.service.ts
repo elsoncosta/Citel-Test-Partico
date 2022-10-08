@@ -5,47 +5,49 @@ import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
-import { Fornecedor } from '../models/fornecedor';
+import { Produto } from '../models/produto';
 import { ReturnCategoria } from "../models/return.categoria";
+import { ReturnProdutoList } from "../models/return.produto.list";
+import { ReturnProduto } from "../models/return.produto";
 
 @Injectable()
-export class FornecedorService extends BaseService {
+export class ProdutoService extends BaseService {
 
-    fornecedor: Fornecedor = new Fornecedor();
+    fornecedor: Produto = new Produto();
 
     constructor(private http: HttpClient) { super() }
 
-    obterTodos(): Observable<Fornecedor[]> {
+    obterTodos(): Observable<ReturnProdutoList> {
         return this.http
-            .get<Fornecedor[]>(this.UrlServiceV1 + "fornecedores")
+            .get<ReturnProdutoList>(this.UrlServiceV1 + "produtos")
             .pipe(catchError(super.serviceError));
     }
 
-    obterPorId(id: string): Observable<Fornecedor> {
+    obterPorId(id: string): Observable<ReturnProduto> {
         return this.http
-            .get<Fornecedor>(this.UrlServiceV1 + "fornecedores/" + id, super.ObterAuthHeaderJson())
+            .get<ReturnProduto>(this.UrlServiceV1 + "produtos/" + id, super.ObterAuthHeaderJson())
             .pipe(catchError(super.serviceError));
     }
 
-    novoFornecedor(fornecedor: Fornecedor): Observable<Fornecedor> {
+    AddCliente(fornecedor: Produto): Observable<Produto> {
         return this.http
-            .post(this.UrlServiceV1 + "fornecedores", fornecedor, this.ObterAuthHeaderJson())
+            .post(this.UrlServiceV1 + "produtos", fornecedor, this.ObterAuthHeaderJson())
             .pipe(
                 map(super.extractData),
                 catchError(super.serviceError));
     }
 
-    atualizarFornecedor(fornecedor: Fornecedor): Observable<Fornecedor> {
+    AlterCliente(fornecedor: Produto): Observable<Produto> {
         return this.http
-            .put(this.UrlServiceV1 + "fornecedores/" + fornecedor.id, fornecedor, super.ObterAuthHeaderJson())
+            .put(this.UrlServiceV1 + "produtos/" + fornecedor.id, fornecedor, super.ObterAuthHeaderJson())
             .pipe(
                 map(super.extractData),
                 catchError(super.serviceError));
     }
 
-    excluirFornecedor(id: string): Observable<Fornecedor> {
+    excluirCliente(id: string): Observable<Produto> {
         return this.http
-            .delete(this.UrlServiceV1 + "fornecedores/" + id, super.ObterAuthHeaderJson())
+            .delete(this.UrlServiceV1 + "produtos/" + id, super.ObterAuthHeaderJson())
             .pipe(
                 map(super.extractData),
                 catchError(super.serviceError));
@@ -53,7 +55,7 @@ export class FornecedorService extends BaseService {
 
     GetListCategoria(): Observable<ReturnCategoria> {
         return this.http
-            .get<ReturnCategoria>(this.UrlServiceV1 + "categorias", super.ObterHeaderJson())
+            .get<ReturnCategoria>(this.UrlServiceV1 + "categorias")
             .pipe(catchError(super.serviceError));
     }
 }
