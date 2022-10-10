@@ -51,7 +51,7 @@ Criação de Web API MVC ASP NET Core, com CRUD para:
 
 
 ### Local Swagger
-- http://localhost:8081/swagger/index.html
+- http://localhost:4200/produtos/index
 
 
 
