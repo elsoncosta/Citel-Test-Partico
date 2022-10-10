@@ -38,6 +38,20 @@ namespace CitelTestPratico.WebAPI.V1.Controllers.Categorias
             return CustomResponse(_mapper.Map<List<CategoriaExibirViewModel>>(model));
         }
 
+         [HttpGet("{Id:int}")]
+        [ProducesResponseType(typeof(CategoriaExibirViewModel), 201)]
+        [ProducesResponseType(typeof(BadRequestRetorno), 404)]
+        public async Task<IActionResult> GetAsync(int Id)
+        {
+            var modelsretorno = await _repository.ObterPorId(Id);
+            if(modelsretorno!=null)
+            {
+                var viewModelsRetorno = _mapper.Map<CategoriaExibirViewModel>(modelsretorno);
+               return CustomResponse(viewModelsRetorno);
+            }
+            return CustomResponse();
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CategoriaAdicionarViewModel), 201)]
         [ProducesResponseType(typeof(BadRequestRetorno), 404)]

@@ -1,6 +1,6 @@
 import { Categoria } from "./categoria";
 
-export class ReturnCategoria {
+export class ReturnCategoriaList {
     success!: boolean;
     data!: Categoria[];
 }

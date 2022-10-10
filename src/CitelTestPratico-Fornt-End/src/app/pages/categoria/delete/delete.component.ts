@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Produto } from '../models/produto';
+import { Categoria } from '../models/categoria';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProdutoService } from '../services/produto.service';
+import { CategoriaService } from '../services/categoria.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,25 +13,24 @@ export class DeleteComponent implements OnInit {
 
   id!: string;
 
-  produto: Produto = new Produto();
+  categoria: Categoria = new Categoria();
 
   constructor(
-    private categoriaService: ProdutoService,
+    private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService) {
-   
   }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.categoriaService.obterPorId(this.id)
-      .subscribe(categoria => this.produto = categoria.data);
+      .subscribe(categoria => this.categoria = categoria.data);
     });
   }
 
   excluirEvento() {
-    this.categoriaService.excluirCliente(this.produto.id)
+    this.categoriaService.excluir(this.categoria.id)
       .subscribe(
         evento => { this.sucessoExclusao(evento) },
         error => { this.falha() }
@@ -43,7 +42,7 @@ export class DeleteComponent implements OnInit {
     const toast = this.toastr.success('Dados excluido com Sucesso!', 'Good bye :D');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/produtos/index']);
+        this.router.navigate(['/categorias/index']);
       });
     }
   }

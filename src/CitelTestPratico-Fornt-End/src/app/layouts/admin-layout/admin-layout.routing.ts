@@ -7,6 +7,11 @@ export const AdminLayoutRoutes: Routes = [
     {
         path: 'produtos',
         loadChildren: () => import('../../pages/produto/produto.module')
-        .then(m => m.FornecedorModule)
+        .then(m => m.ProdutoModule)
+    },
+    {
+        path: 'categorias',
+        loadChildren: () => import('../../pages/categoria/categoria.module')
+        .then(m => m.CategoriaModule)
     }
 ];

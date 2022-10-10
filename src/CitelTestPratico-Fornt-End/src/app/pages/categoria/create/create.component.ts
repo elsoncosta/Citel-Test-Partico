@@ -8,9 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { utilsBr } from 'js-brasil';
 
 import { ValidationMessages, GenericValidator, DisplayMessage } from 'src/app/utils/generic-form-validation';
-import { ProdutoService } from '../services/produto.service';
-import { Produto } from '../models/produto';
-import { Categoria } from '../../categoria/models/categoria';
+import { Categoria } from '../models/categoria';
+import { CategoriaService } from '../services/categoria.service';
 
 
 @Component({
@@ -23,7 +22,7 @@ export class CreateComponent implements OnInit {
 
   errors: any[] = [];
   form!: FormGroup;
-  produto: Produto = new Produto();
+  categoria: Categoria = new Categoria();
 
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;
@@ -38,22 +37,13 @@ export class CreateComponent implements OnInit {
   mudancasNaoSalvas!: boolean;
 
   constructor(private fb: FormBuilder,
-    private fornecedorService: ProdutoService,
+    private fornecedorService: CategoriaService,
     private router: Router,
     private toastr: ToastrService) {
 
     this.validationMessages = {
-      nome: {
-        required: 'Informe o Nome',
-      },
-      categoriasIds: {
-        required: 'Informe uma categoria'
-      },
       descricao: {
         required: 'Informe a descriçao',
-      },
-      codigoBarra: {
-        required: 'Informe o código de barras',
       }
     };
 
@@ -64,11 +54,8 @@ export class CreateComponent implements OnInit {
 
     this.form = this.fb.group(
       {
-        nome: ['', [Validators.required]],
         descricao: ['', [Validators.required]],
-        codigoBarra: ['', [Validators.required]],
-        ativo: ['', [Validators.required]],
-        categoriasIds: [null, [Validators.required]]
+        // ativo: ['', [Validators.required]],
       });
 
     this.form.patchValue({ativo: true});
@@ -108,13 +95,10 @@ export class CreateComponent implements OnInit {
 
    adicionar() {
     if (this.form.dirty && this.form.valid) {
-      this.produto = Object.assign({}, this.produto, this.form.value);
-      let ids: number[] = [Number(this.categoriaSelecionada)];
-      this.produto.categoriasIds = ids;
-      this.produto.uriImageDefault = 'https://cdn2.iconfinder.com/data/icons/facebook-ui-colored/48/JD-24-512.png'
-      this.formResult = JSON.stringify(this.produto);
-      console.log(this.produto);
-      this.fornecedorService.AddCliente(this.produto)
+      this.categoria = Object.assign({}, this.categoria, this.form.value);
+      this.formResult = JSON.stringify(this.categoria);
+      console.log(this.categoria);
+      this.fornecedorService.Add(this.categoria)
         .subscribe({
           next: (sucesso) => { this.processarSucesso(sucesso) },
           error: (error) => { this.processarFalha(error) }
@@ -133,10 +117,10 @@ export class CreateComponent implements OnInit {
     this.form.reset();
     this.errors = [];
 
-    let toast = this.toastr.success('Produto cadastrado com sucesso!', 'Sucesso!');
+    let toast = this.toastr.success('Categoria cadastrado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/fornecedores/index']);
+        this.router.navigate(['/categorias/index']);
       });
     }
   }

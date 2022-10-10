@@ -9,10 +9,10 @@ import { NgBrazil } from 'ng-brazil';
 
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
 
-import { ProdutoAppComponent } from './produto.app.component';
-import { ProdutoRoutingModule } from './produto.route';
+import { CategoriaAppComponent } from './categoria.app.component';
+import { CategoriaRoutingModule } from './categoria.route';
 
-import { ProdutoService } from './services/produto.service';
+import { CategoriaService } from './services/categoria.service';
 
 import { IndexComponent } from './index/index.component';
 import { CreateComponent } from './create/create.component';
@@ -23,7 +23,7 @@ import { DetailsComponent } from './details/details.component';
 
 @NgModule({
   declarations: [
-    ProdutoAppComponent,
+    CategoriaAppComponent,
     CreateComponent,
     IndexComponent,
     EditComponent,
@@ -32,7 +32,7 @@ import { DetailsComponent } from './details/details.component';
   ],
   imports: [
     CommonModule,
-    ProdutoRoutingModule,
+    CategoriaRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -42,7 +42,7 @@ import { DetailsComponent } from './details/details.component';
     NgbModule
   ],
   providers: [
-    ProdutoService
+    CategoriaService
   ]
 })
-export class ProdutoModule { }
+export class CategoriaModule { }

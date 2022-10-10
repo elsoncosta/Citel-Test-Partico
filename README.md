@@ -41,6 +41,18 @@ Criação de Web API MVC ASP NET Core, com CRUD para:
 ### Local Swagger
 - http://localhost:8081/swagger/index.html
 
+### Instruções Front-End
+- run pasta /src/CitelTestPratico-Fornt-End/
+- Angular instalado 12.2.1
+
+    - npm install -g @angular/cli@12.2.1
+    - npm install --save @angular-devkit/build-angular
+    - ng s
+
+
+### Local Swagger
+- http://localhost:8081/swagger/index.html
+
 
 
 

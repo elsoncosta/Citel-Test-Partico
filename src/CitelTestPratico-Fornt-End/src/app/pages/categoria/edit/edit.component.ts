@@ -7,9 +7,8 @@ import { Observable, fromEvent, merge } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { ValidationMessages, GenericValidator, DisplayMessage } from 'src/app/utils/generic-form-validation';
-import { Produto } from '../models/produto';
-import { ProdutoService } from '../services/produto.service';
-import { Categoria } from '../../categoria/models/categoria';
+import { CategoriaService } from '../services/categoria.service';
+import { Categoria } from '../models/categoria';
 
 @Component({
   selector: 'app-edit',
@@ -23,7 +22,7 @@ export class EditComponent implements OnInit {
   errorsEndereco: any[] = [];
   form!: FormGroup;
 
-  produto: Produto = new Produto();
+  categoria: Categoria = new Categoria();
   categorias!: Categoria[];
   categoriaSelecionada!: number;
 
@@ -38,23 +37,14 @@ export class EditComponent implements OnInit {
   mudancasNaoSalvas!: boolean;
 
   constructor(private fb: FormBuilder,
-    private produtoService: ProdutoService,
+    private categoriaService: CategoriaService,
     private router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute) {
 
       this.validationMessages = {
-        nome: {
-          required: 'Informe o Nome',
-        },
-        categoriasIds: {
-          required: 'Informe uma categoria'
-        },
         descricao: {
           required: 'Informe a descriçao',
-        },
-        codigoBarra: {
-          required: 'Informe o código de barras',
         }
       };
   
@@ -70,20 +60,16 @@ export class EditComponent implements OnInit {
     this.form = this.fb.group(
       {
         id: ['', [Validators.required]],
-        nome: ['', [Validators.required]],
         descricao: ['', [Validators.required]],
-        codigoBarra: ['', [Validators.required]],
-        ativo: ['', [Validators.required]],
-        categoriasIds: [null, [Validators.required]]
+        // ativo: ['', [Validators.required]],
       });
 
-      this.produtoService.obterPorId(this.id)
+      this.categoriaService.obterPorId(this.id)
       .subscribe(result => {
-        this.produto = result.data;
-        this.form.patchValue(this.produto);
+        this.categoria = result.data;
+        console.log(this.categoria);
+        this.form.patchValue(this.categoria);
       });
-
-      this.GetCategorias();
   }
 
   ngAfterViewInit() {
@@ -98,13 +84,10 @@ export class EditComponent implements OnInit {
 
   editar() {
     if (this.form.dirty && this.form.valid) {
-      this.produto = Object.assign({}, this.produto, this.form.value);
+      this.categoria = Object.assign({}, this.categoria, this.form.value);
 
       let ids: number[] = [Number(this.categoriaSelecionada)];
-      this.produto.categoriasIds = ids;
-      this.produto.uriImageDefault = 'https://cdn2.iconfinder.com/data/icons/facebook-ui-colored/48/JD-24-512.png'
-
-      this.produtoService.AlterCliente(this.produto)
+      this.categoriaService.Alter(this.categoria)
         .subscribe(
           sucesso => { this.processarSucesso(sucesso) },
           falha => { this.processarFalha(falha) }
@@ -119,30 +102,13 @@ export class EditComponent implements OnInit {
     this.categoriaSelecionada = e.target.value;
   }
 
-  GetCategorias() {
-    this.produtoService.GetListCategoria()
-      .subscribe(
-        result => {
-          this.categorias = result.data;
-          console.log(this.produto.nome);
-          console.log(this.produto.categorias[0].descricao);
-          let ids: number[] = [this.produto.categorias[0].id];
-          this.form.patchValue({categoriasIds: ids});
-        },
-        error => {
-                  this.errors.push(error);
-                  this.toastr.error('Ocorreu um erro!', "Categorias não localizadas.");
-                }
-      );
-  }
-
   processarSucesso(response: any) {
     this.errors = [];
 
-    let toast = this.toastr.success('Produto atualizado com sucesso!', 'Sucesso!');
+    let toast = this.toastr.success('Categoria atualizado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/produtos/index']);
+        this.router.navigate(['/categorias/index']);
       });
     }
   }

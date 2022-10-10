@@ -1,4 +1,4 @@
-import { Categoria } from "./categoria";
+import { Categoria } from "../../categoria/models/categoria";
 
 export class Produto {
     id!: string;

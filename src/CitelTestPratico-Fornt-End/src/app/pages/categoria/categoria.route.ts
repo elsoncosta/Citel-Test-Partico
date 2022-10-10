@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {  ProdutoAppComponent } from './produto.app.component';
+import { CategoriaAppComponent } from './categoria.app.component';
 
 import { CreateComponent } from './create/create.component';
 import { IndexComponent } from './index/index.component';
@@ -9,9 +9,9 @@ import { EditComponent } from './edit/edit.component';
 import { DetailsComponent } from './details/details.component';
 import { DeleteComponent } from './delete/delete.component';
 
-const produtoRouterConfig: Routes = [
+const categoriaRouterConfig: Routes = [
     {
-        path: '', component: ProdutoAppComponent,
+        path: '', component: CategoriaAppComponent,
         children: [
             { path: 'index', component: IndexComponent },
             { path: 'create', component: CreateComponent },
@@ -24,8 +24,8 @@ const produtoRouterConfig: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forChild(produtoRouterConfig)
+        RouterModule.forChild(categoriaRouterConfig)
     ],
     exports: [RouterModule]
 })
-export class ProdutoRoutingModule { }
+export class CategoriaRoutingModule { }

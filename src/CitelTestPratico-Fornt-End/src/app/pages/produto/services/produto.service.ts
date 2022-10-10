@@ -6,9 +6,10 @@ import { catchError, map } from "rxjs/operators";
 
 import { BaseService } from 'src/app/services/base.service';
 import { Produto } from '../models/produto';
-import { ReturnCategoria } from "../models/return.categoria";
 import { ReturnProdutoList } from "../models/return.produto.list";
 import { ReturnProduto } from "../models/return.produto";
+import { ReturnCategoria } from "../../categoria/models/return.categoria";
+import { ReturnCategoriaList } from "../../categoria/models/return.categoria.list";
 
 @Injectable()
 export class ProdutoService extends BaseService {
@@ -53,9 +54,9 @@ export class ProdutoService extends BaseService {
                 catchError(super.serviceError));
     }
 
-    GetListCategoria(): Observable<ReturnCategoria> {
+    GetListCategoria(): Observable<ReturnCategoriaList> {
         return this.http
-            .get<ReturnCategoria>(this.UrlServiceV1 + "categorias")
+            .get<ReturnCategoriaList>(this.UrlServiceV1 + "categorias")
             .pipe(catchError(super.serviceError));
     }
 }
