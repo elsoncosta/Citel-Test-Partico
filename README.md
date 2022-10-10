@@ -54,5 +54,8 @@ Criação de Web API MVC ASP NET Core, com CRUD para:
 - http://localhost:4200/produtos/index
 
 
+## Infelizmente eu não consegui configurar o Docker no projeto do Angular e eu me enrolei de mais.
+
+
 
 
